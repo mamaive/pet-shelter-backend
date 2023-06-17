@@ -12,10 +12,10 @@ coverage
 benchmarks/graphs
 
 # SQLite
-db.sqlite3
+#db.sqlite3
 
 # Statsic
-uploads
+#uploads
 
 # ignore additional files using core.excludesFile
 # https://git-scm.com/docs/gitignore

@@ -26,10 +26,10 @@ npm run dev
 - [ ] Member Google Login (optional)
 - [ ] Cat's breed identifying (optional)
 
-
 ## Image
 
-Create folder 
+Create folder
+
 ```
 pet-shelter/backend/public/uploads
 ```

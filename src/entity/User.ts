@@ -1,78 +1,62 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToMany,
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    CreateDateColumn,
+    UpdateDateColumn, OneToMany,
 } from "typeorm";
-import { Cat } from "./Cat";
+import {Favourite} from "./Favourite";
+import {Cat} from "./Cat";
+import {Message} from "./Message";
+import {ChatRoom} from "./ChatRoom";
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id?: number;
-  
-  @Column()
-  firstName: string = "";
+    @PrimaryGeneratedColumn()
+    id?: number;
 
-  @Column()
-  lastName: string = "";
+    @Column()
+    firstName: string = "";
 
-  @Column()
-  email!: string;
+    @Column()
+    lastName: string = "";
 
-  @Column()
-  password!: string;
+    @Column()
+    email!: string;
 
-  @Column()
-  role?: number = 1;
+    @Column()
+    password!: string;
 
-  @Column()
-  organization?: string;
+    @Column()
+    role?: number = 1;
 
-  @Column()
-  staffID?: string;
+    @Column()
+    organization?: string;
 
-  @Column()
-  status?: number = 1;
+    @Column()
+    staffID?: string;
 
-  @CreateDateColumn()
-  createdAt?: Date;
+    @Column()
+    signupCode?: string;
 
-  @UpdateDateColumn()
-  updatedAt?: Date;
-}
+    @OneToMany(() => ChatRoom, (chatroom) => chatroom.user)
+    chatRooms?: ChatRoom[]
 
-@Entity()
-export class UserFavoriteCat{
-  @PrimaryGeneratedColumn()
-  id?: number;
+    @OneToMany(() => Favourite, (favourite) => favourite.user)
+    favourites?: Favourite[];
 
-  @ManyToMany(() => Cat, cat => cat.name)
-  cats: Cat[] = [];
-}
+    @OneToMany(() => Message, (message) => message.user)
+    messages?: Message[];
 
-@Entity()
-export class UserMessage{
-  @PrimaryGeneratedColumn()
-  id?: number;
+    @OneToMany(() => Cat, (cat) => cat.user)
+    cats?: Cat[]
 
-  @Column()
-  member!: string;
+    @Column()
+    status?: number = 1;
 
-  @Column()
-  worker!: string;
+    @CreateDateColumn()
+    createdAt?: Date;
 
-  @Column()
-  cat!: string;
-
-  @Column()
-  message!: string;
-
-  @Column()
-  status?: number = 1;
-
-  @CreateDateColumn()
-  createdAt?: Date;
+    @UpdateDateColumn()
+    updatedAt?: Date;
 }

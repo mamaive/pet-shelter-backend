@@ -1,36 +1,51 @@
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { User } from "./User";
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinTable,
+    ManyToMany, ManyToOne, OneToMany,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
+} from "typeorm";
+import {User} from "./User";
+import {ChatRoom} from "./ChatRoom";
+import {Favourite} from "./Favourite";
 
 @Entity()
 export class Cat {
-  @PrimaryGeneratedColumn()
-  id?: number;
+    @PrimaryGeneratedColumn()
+    id?: number;
 
-  @Column()
-  name: string = '';
+    @Column()
+    name: string = '';
 
-  @Column()
-  breed: string = '';
+    @Column()
+    breed: string = '';
 
-  @Column()
-  age: number = 0;
+    @Column()
+    age: number = 0;
 
-  @Column()
-  description: string = "";
+    @Column()
+    description: string = "";
 
-  @ManyToMany(() => User, user => user.email)
-  @JoinTable()
-  users?: User[];
+    @ManyToOne(() => User, user => user.cats)
+    user?: User;
 
-  @Column()
-  image: string = '';
+    @Column()
+    image: string = '';
 
-  @Column()
-  status?: number = 1;
+    @OneToMany(() => ChatRoom, (chatroom) => chatroom.cat)
+    chatRooms?: ChatRoom[]
 
-  @CreateDateColumn()
-  createdAt?: Date;
+    @OneToMany(() => Favourite, (favourite) => favourite.cat)
+    favourites?: Favourite[];
 
-  @UpdateDateColumn()
-  updatedAt?: Date;
+    @Column()
+    status?: number = 1;
+
+    @CreateDateColumn()
+    createdAt?: Date;
+
+    @UpdateDateColumn()
+    updatedAt?: Date;
 }

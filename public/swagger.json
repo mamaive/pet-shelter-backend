@@ -49,6 +49,33 @@
 					"staffID": {
 						"type": "string"
 					},
+					"signupCode": {
+						"type": "string"
+					},
+					"chatRooms": {
+						"items": {
+							"$ref": "#/components/schemas/ChatRoom"
+						},
+						"type": "array"
+					},
+					"favourites": {
+						"items": {
+							"$ref": "#/components/schemas/Favourite"
+						},
+						"type": "array"
+					},
+					"messages": {
+						"items": {
+							"$ref": "#/components/schemas/Message"
+						},
+						"type": "array"
+					},
+					"cats": {
+						"items": {
+							"$ref": "#/components/schemas/Cat"
+						},
+						"type": "array"
+					},
 					"status": {
 						"type": "number",
 						"format": "double",
@@ -70,19 +97,38 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"UserLoginFormValues": {
+			"ChatRoom": {
 				"properties": {
-					"email": {
-						"type": "string"
+					"id": {
+						"type": "number",
+						"format": "double"
 					},
-					"password": {
-						"type": "string"
+					"user": {
+						"$ref": "#/components/schemas/User"
+					},
+					"cat": {
+						"$ref": "#/components/schemas/Cat"
+					},
+					"messages": {
+						"items": {
+							"$ref": "#/components/schemas/Message"
+						},
+						"type": "array"
+					},
+					"status": {
+						"type": "number",
+						"format": "double",
+						"default": 1
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
 					}
 				},
-				"required": [
-					"email",
-					"password"
-				],
 				"type": "object",
 				"additionalProperties": false
 			},
@@ -109,13 +155,84 @@
 						"type": "string",
 						"default": ""
 					},
-					"users": {
+					"user": {
+						"$ref": "#/components/schemas/User"
+					},
+					"image": {
+						"type": "string",
+						"default": ""
+					},
+					"chatRooms": {
 						"items": {
-							"$ref": "#/components/schemas/User"
+							"$ref": "#/components/schemas/ChatRoom"
 						},
 						"type": "array"
 					},
-					"image": {
+					"favourites": {
+						"items": {
+							"$ref": "#/components/schemas/Favourite"
+						},
+						"type": "array"
+					},
+					"status": {
+						"type": "number",
+						"format": "double",
+						"default": 1
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Favourite": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"user": {
+						"$ref": "#/components/schemas/User"
+					},
+					"cat": {
+						"$ref": "#/components/schemas/Cat"
+					},
+					"status": {
+						"type": "number",
+						"format": "double",
+						"default": 1
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Message": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"chatRoom": {
+						"$ref": "#/components/schemas/ChatRoom"
+					},
+					"user": {
+						"$ref": "#/components/schemas/User"
+					},
+					"text": {
 						"type": "string",
 						"default": ""
 					},
@@ -133,6 +250,22 @@
 						"format": "date-time"
 					}
 				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UserLoginFormValues": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				],
 				"type": "object",
 				"additionalProperties": false
 			}
@@ -168,7 +301,7 @@
 				"parameters": []
 			}
 		},
-		"/users": {
+		"/user": {
 			"get": {
 				"operationId": "GetUsers",
 				"responses": {
@@ -223,7 +356,7 @@
 				}
 			}
 		},
-		"/users/{id}": {
+		"/user/{id}": {
 			"get": {
 				"operationId": "GetUser",
 				"responses": {
@@ -259,7 +392,7 @@
 				]
 			}
 		},
-		"/users/register": {
+		"/user/register": {
 			"post": {
 				"operationId": "RegisterUser",
 				"responses": {
@@ -291,7 +424,7 @@
 				}
 			}
 		},
-		"/users/login": {
+		"/user/login": {
 			"post": {
 				"operationId": "LoginUser",
 				"responses": {
@@ -367,7 +500,7 @@
 				}
 			}
 		},
-		"/cats": {
+		"/cat": {
 			"get": {
 				"operationId": "GetCats",
 				"responses": {
@@ -422,7 +555,7 @@
 				}
 			}
 		},
-		"/cats/{id}": {
+		"/cat/{id}": {
 			"get": {
 				"operationId": "GetCat",
 				"responses": {
@@ -480,14 +613,23 @@
 													"type": "number",
 													"format": "double"
 												},
+												"favourites": {
+													"items": {
+														"$ref": "#/components/schemas/Favourite"
+													},
+													"type": "array"
+												},
+												"chatRooms": {
+													"items": {
+														"$ref": "#/components/schemas/ChatRoom"
+													},
+													"type": "array"
+												},
 												"image": {
 													"type": "string"
 												},
-												"users": {
-													"items": {
-														"$ref": "#/components/schemas/User"
-													},
-													"type": "array"
+												"user": {
+													"$ref": "#/components/schemas/User"
 												},
 												"description": {
 													"type": "string"
@@ -545,6 +687,535 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/Cat"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteCat",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/Cat"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Cat"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/chatroom": {
+			"get": {
+				"operationId": "GetChatRooms",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ChatRoom"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"ChatRoom"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateChatRoom",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ChatRoom"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"ChatRoom"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ChatRoom"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/chatroom/{id}": {
+			"get": {
+				"operationId": "GetChatRoom",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/ChatRoom"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"ChatRoom"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateChatRoom",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"properties": {
+												"updatedAt": {
+													"type": "string",
+													"format": "date-time"
+												},
+												"createdAt": {
+													"type": "string",
+													"format": "date-time"
+												},
+												"status": {
+													"type": "number",
+													"format": "double"
+												},
+												"messages": {
+													"items": {
+														"$ref": "#/components/schemas/Message"
+													},
+													"type": "array"
+												},
+												"cat": {
+													"$ref": "#/components/schemas/Cat"
+												},
+												"user": {
+													"$ref": "#/components/schemas/User"
+												},
+												"id": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"type": "object"
+										},
+										{
+											"$ref": "#/components/schemas/ChatRoom"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"ChatRoom"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ChatRoom"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/favourite": {
+			"get": {
+				"operationId": "GetFavourites",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Favourite"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Favourite"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateFavourite",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Favourite"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Favourite"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Favourite"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/favourite/{id}": {
+			"get": {
+				"operationId": "GetFavourite",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/Favourite"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Favourite"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateFavourite",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"properties": {
+												"updatedAt": {
+													"type": "string",
+													"format": "date-time"
+												},
+												"createdAt": {
+													"type": "string",
+													"format": "date-time"
+												},
+												"status": {
+													"type": "number",
+													"format": "double"
+												},
+												"cat": {
+													"$ref": "#/components/schemas/Cat"
+												},
+												"user": {
+													"$ref": "#/components/schemas/User"
+												},
+												"id": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"type": "object"
+										},
+										{
+											"$ref": "#/components/schemas/Favourite"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Favourite"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Favourite"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/message": {
+			"get": {
+				"operationId": "GetMessages",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Message"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Message"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "CreateMessage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Message"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Message"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Message"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/message/{id}": {
+			"get": {
+				"operationId": "GetMessage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"$ref": "#/components/schemas/Message"
+										}
+									],
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Message"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateMessage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"allOf": [
+										{
+											"properties": {
+												"updatedAt": {
+													"type": "string",
+													"format": "date-time"
+												},
+												"createdAt": {
+													"type": "string",
+													"format": "date-time"
+												},
+												"status": {
+													"type": "number",
+													"format": "double"
+												},
+												"text": {
+													"type": "string"
+												},
+												"user": {
+													"$ref": "#/components/schemas/User"
+												},
+												"chatRoom": {
+													"$ref": "#/components/schemas/ChatRoom"
+												},
+												"id": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"required": [
+												"text"
+											],
+											"type": "object"
+										},
+										{
+											"$ref": "#/components/schemas/Message"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Message"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Message"
 							}
 						}
 					}

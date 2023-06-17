@@ -4,6 +4,7 @@
     "module": "commonjs",
     "outDir": "./build",
     "strict": true,
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
