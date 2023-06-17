@@ -16,15 +16,15 @@ npm run dev
 - [x] Create Cat - Worker
 - [x] Update Cat - Worker
 - [x] Delete Cat - Worker
-- [ ] Upload Photo - Worker
+- [x] Upload Photo - Worker
 - [x] Favorites List - Member / Worker
 - [x] Send Direct Message - Member / Worker
 - [x] Respond Message - Member / Worker
 - [x] Delete Message - Member / Worker
-- [ ] API endpoint automated testing
-- [ ] Charity's Social Media Feed (optional)
-- [ ] Member Google Login (optional)
-- [ ] Cat's breed identifying (optional)
+- [x] API endpoint automated testing
+- [x] Charity's Social Media Feed (optional)
+- [x] Member Google Login (optional)
+- [x] Cat's breed identifying (optional)
 
 ## Image
 
